@@ -1,0 +1,17 @@
+C:\Users\endurance.peter\Desktop\DotnetProj\NotebookApp\src\Notebook.Infrastructure\bin\Debug\net6.0\Notebook.Infrastructure.deps.json
+C:\Users\endurance.peter\Desktop\DotnetProj\NotebookApp\src\Notebook.Infrastructure\bin\Debug\net6.0\Notebook.Infrastructure.runtimeconfig.json
+C:\Users\endurance.peter\Desktop\DotnetProj\NotebookApp\src\Notebook.Infrastructure\bin\Debug\net6.0\Notebook.Infrastructure.dll
+C:\Users\endurance.peter\Desktop\DotnetProj\NotebookApp\src\Notebook.Infrastructure\bin\Debug\net6.0\Notebook.Infrastructure.pdb
+C:\Users\endurance.peter\Desktop\DotnetProj\NotebookApp\src\Notebook.Infrastructure\bin\Debug\net6.0\Notebook.Models.dll
+C:\Users\endurance.peter\Desktop\DotnetProj\NotebookApp\src\Notebook.Infrastructure\bin\Debug\net6.0\Notebook.Models.pdb
+C:\Users\endurance.peter\Desktop\DotnetProj\NotebookApp\src\Notebook.Infrastructure\obj\Debug\net6.0\Notebook.Infrastructure.csproj.AssemblyReference.cache
+C:\Users\endurance.peter\Desktop\DotnetProj\NotebookApp\src\Notebook.Infrastructure\obj\Debug\net6.0\Notebook.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\endurance.peter\Desktop\DotnetProj\NotebookApp\src\Notebook.Infrastructure\obj\Debug\net6.0\Notebook.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\endurance.peter\Desktop\DotnetProj\NotebookApp\src\Notebook.Infrastructure\obj\Debug\net6.0\Notebook.Infrastructure.AssemblyInfo.cs
+C:\Users\endurance.peter\Desktop\DotnetProj\NotebookApp\src\Notebook.Infrastructure\obj\Debug\net6.0\Notebook.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\endurance.peter\Desktop\DotnetProj\NotebookApp\src\Notebook.Infrastructure\obj\Debug\net6.0\Notebook.Infrastructure.csproj.CopyComplete
+C:\Users\endurance.peter\Desktop\DotnetProj\NotebookApp\src\Notebook.Infrastructure\obj\Debug\net6.0\Notebook.Infrastructure.dll
+C:\Users\endurance.peter\Desktop\DotnetProj\NotebookApp\src\Notebook.Infrastructure\obj\Debug\net6.0\refint\Notebook.Infrastructure.dll
+C:\Users\endurance.peter\Desktop\DotnetProj\NotebookApp\src\Notebook.Infrastructure\obj\Debug\net6.0\Notebook.Infrastructure.pdb
+C:\Users\endurance.peter\Desktop\DotnetProj\NotebookApp\src\Notebook.Infrastructure\obj\Debug\net6.0\Notebook.Infrastructure.genruntimeconfig.cache
+C:\Users\endurance.peter\Desktop\DotnetProj\NotebookApp\src\Notebook.Infrastructure\obj\Debug\net6.0\ref\Notebook.Infrastructure.dll
