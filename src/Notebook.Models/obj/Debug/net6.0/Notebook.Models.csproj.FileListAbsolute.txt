@@ -1,0 +1,12 @@
+C:\Users\endurance.peter\Desktop\DotnetProj\NotebookApp\src\Notebook.Models\bin\Debug\net6.0\Notebook.Models.deps.json
+C:\Users\endurance.peter\Desktop\DotnetProj\NotebookApp\src\Notebook.Models\bin\Debug\net6.0\Notebook.Models.dll
+C:\Users\endurance.peter\Desktop\DotnetProj\NotebookApp\src\Notebook.Models\bin\Debug\net6.0\Notebook.Models.pdb
+C:\Users\endurance.peter\Desktop\DotnetProj\NotebookApp\src\Notebook.Models\obj\Debug\net6.0\Notebook.Models.csproj.AssemblyReference.cache
+C:\Users\endurance.peter\Desktop\DotnetProj\NotebookApp\src\Notebook.Models\obj\Debug\net6.0\Notebook.Models.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\endurance.peter\Desktop\DotnetProj\NotebookApp\src\Notebook.Models\obj\Debug\net6.0\Notebook.Models.AssemblyInfoInputs.cache
+C:\Users\endurance.peter\Desktop\DotnetProj\NotebookApp\src\Notebook.Models\obj\Debug\net6.0\Notebook.Models.AssemblyInfo.cs
+C:\Users\endurance.peter\Desktop\DotnetProj\NotebookApp\src\Notebook.Models\obj\Debug\net6.0\Notebook.Models.csproj.CoreCompileInputs.cache
+C:\Users\endurance.peter\Desktop\DotnetProj\NotebookApp\src\Notebook.Models\obj\Debug\net6.0\Notebook.Models.dll
+C:\Users\endurance.peter\Desktop\DotnetProj\NotebookApp\src\Notebook.Models\obj\Debug\net6.0\refint\Notebook.Models.dll
+C:\Users\endurance.peter\Desktop\DotnetProj\NotebookApp\src\Notebook.Models\obj\Debug\net6.0\Notebook.Models.pdb
+C:\Users\endurance.peter\Desktop\DotnetProj\NotebookApp\src\Notebook.Models\obj\Debug\net6.0\ref\Notebook.Models.dll
