@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Notebook.Infrastructure.UnitOfWorks;
 using Notebook.Models.Dtos.Requets;
 using Notebook.Models.Dtos.Responses;
@@ -7,6 +10,7 @@ using Notebook.Models.Users;
 namespace Notebook.Api.Controllers
 {
     [Route("users")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class UsersController: BaseController
     {
         public UsersController(IUnitOfWork unitOfWork) : base(unitOfWork) { }

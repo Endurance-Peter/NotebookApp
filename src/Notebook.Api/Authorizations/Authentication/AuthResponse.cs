@@ -1,14 +1,12 @@
-﻿namespace Notebook.Api.Authorizations.Authentication
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Notebook.Api.Authorizations.Authentication
 {
     public class AuthResponse
     {
-        public AuthResponse()
-        {
-            Erros = new List<string>();
-        }
         public string? Token { get; set; }
         public bool IsSuccess { get; set; }
-        public IList<string>? Erros { get; set; }
+        public List<string>? Erros { get; set; }
     }
 
     public class LoginResponse : AuthResponse
@@ -21,17 +19,23 @@
 
     }
 
-    public class Login
+    public class LoginRequest
     {
+        [Required]
         public string? Email { get; set; }
+        [Required]
         public string? Password { get; set; }
     }
 
-    public class Registration
+    public class RegistrationRequest
     {
+        [Required]
         public string? FirstName { get; set; }
+        [Required]
         public string? LastName { get; set; }
+        [Required]
         public string? Email { get; set; }
+        [Required]
         public string? Password { get; set; }
     }
 }

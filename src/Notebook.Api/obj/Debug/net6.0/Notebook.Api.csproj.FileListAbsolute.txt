@@ -64,3 +64,10 @@ C:\Users\endurance.peter\Desktop\DotnetProj\NotebookApp\src\Notebook.Api\bin\Deb
 C:\Users\endurance.peter\Desktop\DotnetProj\NotebookApp\src\Notebook.Api\bin\Debug\net6.0\runtimes\win-arm64\native\e_sqlite3.dll
 C:\Users\endurance.peter\Desktop\DotnetProj\NotebookApp\src\Notebook.Api\bin\Debug\net6.0\runtimes\win-x64\native\e_sqlite3.dll
 C:\Users\endurance.peter\Desktop\DotnetProj\NotebookApp\src\Notebook.Api\bin\Debug\net6.0\runtimes\win-x86\native\e_sqlite3.dll
+C:\Users\endurance.peter\Desktop\DotnetProj\NotebookApp\src\Notebook.Api\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\endurance.peter\Desktop\DotnetProj\NotebookApp\src\Notebook.Api\bin\Debug\net6.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\endurance.peter\Desktop\DotnetProj\NotebookApp\src\Notebook.Api\bin\Debug\net6.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\endurance.peter\Desktop\DotnetProj\NotebookApp\src\Notebook.Api\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\endurance.peter\Desktop\DotnetProj\NotebookApp\src\Notebook.Api\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\endurance.peter\Desktop\DotnetProj\NotebookApp\src\Notebook.Api\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\endurance.peter\Desktop\DotnetProj\NotebookApp\src\Notebook.Api\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll

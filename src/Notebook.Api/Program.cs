@@ -21,7 +21,8 @@ services.AddAuthentication(option =>
     option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     option.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
     option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(options =>
+}
+).AddJwtBearer(options =>
 {
     var key = Encoding.ASCII.GetBytes(configuration["JwtSecrets:Secrets"]);
     options.SaveToken = true;

@@ -9,5 +9,6 @@ namespace Notebook.Models
     public abstract class BaseEntity
     {
         public Guid Id { get; set; }
+        public bool SoftDelete { get; set; } = false;
     }
 }
