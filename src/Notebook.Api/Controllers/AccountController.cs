@@ -17,14 +17,17 @@ namespace Notebook.Api.Controllers
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly JwtSecrets _jwtSecrets;
-        private readonly TokenValidationParameters _validationParameters;
+        //private readonly TokenValidationParameters _validationParameters;
         public AccountController(IUnitOfWork unitOfWork, 
                                  UserManager<IdentityUser> userManager,
-                                 IOptions<JwtSecrets> options) : base(unitOfWork) 
+                                 IOptions<JwtSecrets> options, TokenValidationParameters validationParameters) : base(unitOfWork) 
         {
             _userManager = userManager;
             _jwtSecrets = options.Value;
+            ValidationParameters = validationParameters;
         }
+
+        public TokenValidationParameters ValidationParameters { get; set; }
 
         [HttpPost("Login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
@@ -91,12 +94,15 @@ namespace Notebook.Api.Controllers
 
         }
 
-        [HttpPost("RefereshToken")]
+        [HttpPost("referesh-token")]
         public async Task<IActionResult> RefreshToken([FromBody] RefreshRequest refreshRequest)
         {
             if (ModelState.IsValid)
             {
-                return Ok();
+                var result = await VerifyRefreshToken(refreshRequest);
+                //var user = await _userManager.GetUserAsync(HttpContext.User);
+                if(result== null) return BadRequest(new RegistrationResponse { IsSuccess = false, Erros = new List<string> { "failed response" } });
+                return Ok(result);
             }
             else
             {
@@ -110,22 +116,43 @@ namespace Notebook.Api.Controllers
 
             try
             {
-                var principal = tokenHandler.ValidateToken(refreshRequest.Token, _validationParameters, out var validatedToken);
+                var principal = tokenHandler.ValidateToken(refreshRequest.Token, ValidationParameters, out var validatedToken);
 
                 if(validatedToken is JwtSecurityToken validToken)
                 {
-                    var result = validToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256Signature);
+                    var result = validToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256);
 
                     if (!result) return null;
                 }
 
-                var expiryDate = long.Parse(principal.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Sub).Value);
+                var expiryDate = long.Parse(principal.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Exp).Value);
 
                 var expirydate= ConvertToDateTime(expiryDate);
 
-                return new AuthResponse();
+                if (expirydate > DateTime.UtcNow) return new AuthResponse { IsSuccess = false, Erros = new List<string> { "Token has expired" } };
+
+                var fetchToken = await UnitOfWork.RefreshTokenRepository.GetRefreshToken(refreshRequest.RefreshToken);
+                if (fetchToken == null) return new AuthResponse { IsSuccess = false, Erros = new List<string> { "Refresh token not found" } };
+
+                if(fetchToken.ExpiryDate < DateTime.UtcNow) return new AuthResponse { IsSuccess = false, Erros = new List<string> { "Token has expired" } };
+                if(fetchToken.IsUsed) return new AuthResponse { IsSuccess = false, Erros = new List<string> { "Token has been used" } };
+                if(fetchToken.IsRevoked) return new AuthResponse { IsSuccess = false, Erros = new List<string> { "Token has been revoked" } };
+
+                var jti= principal.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Jti).Value;
+                if(jti!=fetchToken.JwtTokenId) return new AuthResponse { IsSuccess = false, Erros = new List<string> { "Jwt id not found" } };
+
+                fetchToken.IsUsed = true;
+                var isMarked = await UnitOfWork.RefreshTokenRepository.MarkRefreshToken(fetchToken);
+
+                if (!isMarked) return new AuthResponse { IsSuccess = false, Erros = new List<string> { "data base issues with mark refresh token" } };
+
+                await UnitOfWork.Commit();
+
+                var user = await _userManager.FindByIdAsync(fetchToken.OwnerId.ToString());
+                var token = await GenerateToken(user);
+                return new AuthResponse { IsSuccess=true, Token=token.Token, RefreshToken=token.RefreshToken };
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
                 throw;

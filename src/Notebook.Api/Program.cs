@@ -26,7 +26,7 @@ var tokenValidationParameters = new TokenValidationParameters
     RequireExpirationTime = false
 };
 
-services.AddSingleton<TokenValidationParameters>();
+services.AddSingleton<TokenValidationParameters>(tokenValidationParameters);
 // add authentication
 services.AddAuthentication(option =>
 {

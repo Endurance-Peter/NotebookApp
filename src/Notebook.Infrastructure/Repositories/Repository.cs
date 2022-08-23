@@ -8,7 +8,7 @@ namespace Notebook.Infrastructure.Repositories
     public class Repository<T> : IRepository<T> where T : BaseEntity
     {
         
-        private readonly DbSet<T> _session;
+        public readonly DbSet<T> _session;
 
         public Repository(ApplicationContext session)
         {
