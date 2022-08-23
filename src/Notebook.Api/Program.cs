@@ -15,26 +15,28 @@ services.AddDbContext<ApplicationContext>(opt => opt.UseSqlite(configuration.Get
 services.Configure<JwtSecrets>(configuration.GetSection("JwtSecrets"));
 services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+var key = Encoding.ASCII.GetBytes(configuration["JwtSecrets:Secrets"]);
+var tokenValidationParameters = new TokenValidationParameters
+{
+    IssuerSigningKey = new SymmetricSecurityKey(key),
+    ValidateIssuer = false,
+    ValidateAudience = false,
+    ValidateIssuerSigningKey = true,
+    ValidateLifetime = false,
+    RequireExpirationTime = false
+};
+
+services.AddSingleton<TokenValidationParameters>();
 // add authentication
 services.AddAuthentication(option =>
 {
     option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     option.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
     option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-}
-).AddJwtBearer(options =>
+}).AddJwtBearer(options =>
 {
-    var key = Encoding.ASCII.GetBytes(configuration["JwtSecrets:Secrets"]);
     options.SaveToken = true;
-    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
-    {
-        IssuerSigningKey = new SymmetricSecurityKey(key),
-        ValidateIssuer = false,
-        ValidateAudience = false,
-        ValidateIssuerSigningKey = true,
-        ValidateLifetime = false,
-        RequireExpirationTime = false
-    };
+    options.TokenValidationParameters = tokenValidationParameters;
 });
 
 services.AddDefaultIdentity<IdentityUser>(opt=>opt.SignIn.RequireConfirmedAccount=true).AddEntityFrameworkStores<ApplicationContext>();

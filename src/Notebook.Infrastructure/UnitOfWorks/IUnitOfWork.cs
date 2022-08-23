@@ -11,6 +11,7 @@ namespace Notebook.Infrastructure.UnitOfWorks
     public interface IUnitOfWork: IDisposable
     {
         IUserRepository UserRepository { get; set; }
+        IRefreshTokenRepository RefreshTokenRepository { get; set; }
         Task Commit();
     }
 
@@ -27,8 +28,10 @@ namespace Notebook.Infrastructure.UnitOfWorks
         private void InitializeRpositories(ApplicationContext appDbContext)
         {
             UserRepository = new UserRepository(appDbContext);
+            RefreshTokenRepository = new RefreshTokenRepository(appDbContext);
         }
         public IUserRepository? UserRepository { get; set; }
+        public IRefreshTokenRepository RefreshTokenRepository { get; set; }
         public async Task Commit()
         {
             await _appDbContext.SaveChangesAsync();

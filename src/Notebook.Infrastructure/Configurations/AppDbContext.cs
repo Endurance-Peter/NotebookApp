@@ -23,6 +23,7 @@ namespace Notebook.Infrastructure.Configurations
             
         }
 
-        public DbSet<User>? Users { get; set; }
+        public virtual DbSet<User>? Users { get; set; }
+        public virtual DbSet<RefreshToken>? RefreshTokens { get; set; }
     }
 }

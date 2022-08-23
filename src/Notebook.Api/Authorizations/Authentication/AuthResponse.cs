@@ -5,6 +5,7 @@ namespace Notebook.Api.Authorizations.Authentication
     public class AuthResponse
     {
         public string? Token { get; set; }
+        public string? RefreshToken { get; set; }
         public bool IsSuccess { get; set; }
         public List<string>? Erros { get; set; }
     }
@@ -25,6 +26,20 @@ namespace Notebook.Api.Authorizations.Authentication
         public string? Email { get; set; }
         [Required]
         public string? Password { get; set; }
+    }
+    public class RefreshData
+    {
+        public string? Token { get; set; }
+        public string? RefreshToken { get; set; }
+    }
+
+
+    public class RefreshRequest
+    {
+        [Required]
+        public string? Token { get; set; }
+        [Required]
+        public string? RefreshToken { get; set; }
     }
 
     public class RegistrationRequest

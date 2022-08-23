@@ -17,6 +17,7 @@ namespace Notebook.Api.Controllers
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly JwtSecrets _jwtSecrets;
+        private readonly TokenValidationParameters _validationParameters;
         public AccountController(IUnitOfWork unitOfWork, 
                                  UserManager<IdentityUser> userManager,
                                  IOptions<JwtSecrets> options) : base(unitOfWork) 
@@ -35,9 +36,9 @@ namespace Notebook.Api.Controllers
                 var isConfirmePassword = await _userManager.CheckPasswordAsync(fetchUser, loginRequest.Password);
                 if (!isConfirmePassword) return BadRequest(new RegistrationResponse { IsSuccess = false, Erros = new List<string> { $"Unauthorized user" } });
 
-                var token = GenerateToken(fetchUser);
+                var token = await GenerateToken(fetchUser);
 
-                return Ok(new RegistrationResponse { IsSuccess = true, Token = token });
+                return Ok(new RegistrationResponse { IsSuccess = true, Token = token.Token, RefreshToken = token.RefreshToken });
             }
             else
             {
@@ -74,9 +75,9 @@ namespace Notebook.Api.Controllers
                     UnitOfWork.UserRepository.Add(userModel);
                     await UnitOfWork.Commit();
 
-                    var token = GenerateToken(user);
+                    var token = await GenerateToken(user);
 
-                    return Ok(new RegistrationResponse { IsSuccess = true, Token = token });
+                    return Ok(new RegistrationResponse { IsSuccess = true, Token = token.Token, RefreshToken=token.RefreshToken });
                 }
                 else
                 {
@@ -90,7 +91,57 @@ namespace Notebook.Api.Controllers
 
         }
 
-        private string GenerateToken(IdentityUser user)
+        [HttpPost("RefereshToken")]
+        public async Task<IActionResult> RefreshToken([FromBody] RefreshRequest refreshRequest)
+        {
+            if (ModelState.IsValid)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest(new RegistrationResponse { IsSuccess = false, Erros = new List<string> { "Invalid parameters" } });
+            }
+        }
+
+        private async Task<AuthResponse> VerifyRefreshToken(RefreshRequest refreshRequest)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+
+            try
+            {
+                var principal = tokenHandler.ValidateToken(refreshRequest.Token, _validationParameters, out var validatedToken);
+
+                if(validatedToken is JwtSecurityToken validToken)
+                {
+                    var result = validToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256Signature);
+
+                    if (!result) return null;
+                }
+
+                var expiryDate = long.Parse(principal.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Sub).Value);
+
+                var expirydate= ConvertToDateTime(expiryDate);
+
+                return new AuthResponse();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private DateTime ConvertToDateTime(long value)
+        {
+            var dateTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
+            var result= dateTime.AddSeconds(value).ToUniversalTime();
+
+            return result;
+        }
+
+        private async Task<RefreshData> GenerateToken(IdentityUser user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
 
@@ -105,12 +156,43 @@ namespace Notebook.Api.Controllers
                     new Claim(JwtRegisteredClaimNames.Sub, user.Email),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 }),
-                Expires = DateTime.UtcNow.AddHours(3),
+                Expires = DateTime.UtcNow.Add(_jwtSecrets.ExpiryTime),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+            var securityToken = tokenHandler.CreateToken(tokenDescriptor);
+            var token = tokenHandler.WriteToken(securityToken);
+
+            //refresh token
+
+            var refreshToken = new RefreshToken
+            {
+                ExpiryDate = DateTime.UtcNow.AddDays(90),
+                IsRevoked = false,
+                IsUsed = false,
+                JwtTokenId = securityToken.Id,
+                OwnerId = new Guid(user.Id),
+                SoftDelete = false,
+                Token = $"{RandomStringGenerator(30)}_{Guid.NewGuid()}",
+            };
+
+            UnitOfWork.RefreshTokenRepository.Add(refreshToken);
+            await UnitOfWork.Commit();
+
+            var tokenDto = new RefreshData { Token=token, RefreshToken=refreshToken.Token };
+
+
+            return tokenDto;
+        }
+
+        private string RandomStringGenerator(int lenght)
+        {
+            var rnd = new Random();
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            var values = Enumerable.Repeat(chars, lenght);
+            var results= values.Select(s => s[rnd.Next(s.Length)]).ToArray();
+
+            return new String(results);
         }
 
         //private string GenerateToken(IdentityUser identityUser)
