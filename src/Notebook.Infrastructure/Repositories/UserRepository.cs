@@ -1,5 +1,6 @@
 ﻿using Notebook.Infrastructure.Configurations;
 using Notebook.Models.Users;
+using System.Linq.Expressions;
 
 namespace Notebook.Infrastructure.Repositories
 {
@@ -8,6 +9,11 @@ namespace Notebook.Infrastructure.Repositories
         public UserRepository(ApplicationContext session) : base(session)
         {
 
+        }
+
+        public Task<User> GetUserAsync(Expression<Func<User, bool>> expression)
+        {
+            return Task.FromResult(_session.FirstOrDefault(expression));
         }
     }
 }
